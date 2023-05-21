@@ -184,7 +184,7 @@ export default function Header() {
                                 <NavLink to="/personal-info">Trang cá nhân</NavLink>
                             </div>
                             <ul className="space-y-2">
-                                <form onSubmit={handleCourseSearch} className='relative my-4'>
+                                <form onSubmit={handleCourseSearch} className='relative my-4 md:hidden'>
                                     <input type="text" placeholder='Tìm kiếm'
                                         ref={inputSearchRef}
                                         className='w-full h-12 p-2 shadow-sm rounded-md outline-none border-2 bg-transparent focus:border-green' />

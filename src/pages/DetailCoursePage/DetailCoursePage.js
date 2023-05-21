@@ -6,12 +6,25 @@ import { courseServ } from '../../services/courseServ'
 import { SUCCESS } from '../../utils/constant'
 import { localUser } from '../../utils/localUser'
 import "./DetailCoursePage.css"
+import CourseItem from '../../components/layout/CourseItem/CourseItem'
 const { confirm } = Modal;
 
 export default function DetailCoursePage() {
   const { course } = useParams()
   const [courseDetail, setCourseDetail] = useState(null)
   const [modal, contextHolder] = Modal.useModal();
+  const [courses, setCourses] = useState([])
+  const fetchCourseList = async () => {
+    try {
+      const result = await courseServ.getCourseList()
+      setCourses(result.data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  useEffect(() => {
+    fetchCourseList()
+  }, [])
   const countDown = (icon, title) => {
     let secondsToGo = 5
     const instance = modal.success({
@@ -33,7 +46,7 @@ export default function DetailCoursePage() {
   const fetchCourseDetail = async () => {
     try {
       const result = await courseServ.getCourseDetail(course)
-      if(result.status === SUCCESS) {
+      if (result.status === SUCCESS) {
         setCourseDetail(result.data)
       }
     } catch (err) {
@@ -68,7 +81,7 @@ export default function DetailCoursePage() {
       onCancel() {
       }
     })
-    
+
   }
 
   return (
@@ -76,11 +89,11 @@ export default function DetailCoursePage() {
       {/* <Button onClick={countDown}>Open modal to close in 5s</Button> */}
       {contextHolder}
       <BlockTitle title="THÔNG TIN KHÓA HỌC" desc="TIẾN LÊN VÀ KHÔNG CHẦN CHỪ !!!" />
-      <div className='p-[50px]'>
-        <div className='grid grid-cols-3 gap-10'>
-          <div className='col-span-2'>
+      <div className='px-[20px] py-[30px] md:p-[50px] pb-0'>
+        <div className='flex flex-col-reverse md:grid grid-cols-3 gap-10'>
+          <div className='md:col-span-2'>
             <h2 className='text-2xl font-semibold'>{courseDetail?.tenKhoaHoc}</h2>
-            <div className='py-8 grid grid-cols-3'>
+            <div className='py-8 md:grid md:grid-cols-3'>
               <div className='flex items-center'>
                 <img className='w-14 h-14 object-cover rounded-full' src="/images/instrutor3.jpg" alt="error image" />
                 <div className='ml-3'>
@@ -90,7 +103,7 @@ export default function DetailCoursePage() {
               </div>
               <div className='flex items-center'>
                 <i className="las la-graduation-cap text-5xl text-green-light"></i>
-                <div className='ml-2'>
+                <div className='ml-2 my-4 md:my-0'>
                   <h4 className='text-gray-400 text-sm font-medium'>Lĩnh vực</h4>
                   <h4 className='font-medium'>{courseDetail?.danhMucKhoaHoc.tenDanhMucKhoaHoc}</h4>
                 </div>
@@ -105,7 +118,7 @@ export default function DetailCoursePage() {
             <p className='pb-6 border-b border-b-gray-400'>React.js là thư viện JavaScript phổ biến nhất mà bạn có thể sử dụng và tìm hiểu ngày nay để xây dựng giao diện người dùng hiện đại, phản ứng cho web.Khóa học này dạy bạn về React chuyên sâu, từ cơ bản, từng bước đi sâu vào tất cả các kiến ​​thức cơ bản cốt lõi, khám phá rất nhiều ví dụ và cũng giới thiệu cho bạn các khái niệm nâng cao.Bạn sẽ nhận được tất cả lý thuyết, hàng tấn ví dụ và bản trình diễn, bài tập và bài tập cũng như vô số kiến ​​thức quan trọng bị hầu hết các nguồn khác bỏ qua - sau cùng, có một lý do tại sao khóa học này lại rất lớn! Và trong trường hợp bạn thậm chí không biết tại sao bạn lại muốn học React và bạn chỉ ở đây vì một số quảng cáo hoặc "thuật toán" - đừng lo lắng: ReactJS là một công nghệ quan trọng với tư cách là một nhà phát triển web và trong khóa học này, tôi sẽ cũng giải thích TẠI SAO điều đó lại quan trọng!</p>
             <div className='pt-6'>
               <h3 className='text-xl font-semibold'>Những gì bạn sẽ học</h3>
-              <div className='grid grid-cols-2 gap-x-10'>
+              <div className='grid md:grid-cols-2 gap-x-10'>
                 <ul>
                   <li className='mb-1 text-justify'>
                     <i className="las la-check text-2xl text-yellow mr-1"></i>
@@ -152,8 +165,8 @@ export default function DetailCoursePage() {
               </div>
               <div className='my-6'>
                 <h4 className='text-lg'>Bài học</h4>
-                <div className='group leading-[50px] text-[#8c8c8c] flex justify-between cursor-pointer'>
-                  <div className='flex items-center'>
+                <div className='group text-[#8c8c8c] flex justify-between cursor-pointer'>
+                  <div className='flex my-3 md:my-4 items-center'>
                     <i className="las la-play w-6 h-6 bg-green-light rounded-full flex items-center justify-center text-white"></i>
                     <div className='ml-3 transition-all duration-200 group-hover:text-green-light group-hover:scale-95'>Các khái niệm về React Component</div>
                   </div>
@@ -162,8 +175,8 @@ export default function DetailCoursePage() {
                     <span className='ml-2'>14:35</span>
                   </div>
                 </div>
-                <div className='group leading-[50px] text-[#8c8c8c] flex justify-between cursor-pointer'>
-                  <div className='flex items-center'>
+                <div className='group text-[#8c8c8c] flex justify-between cursor-pointer'>
+                  <div className='flex my-3 md:my-4 items-center'>
                     <i className="las la-play w-6 h-6 bg-green-light rounded-full flex items-center justify-center text-white"></i>
                     <div className='ml-3 transition-all duration-200 group-hover:text-green-light group-hover:scale-95'>Thiết lập môi trường cho Windows</div>
                   </div>
@@ -172,8 +185,8 @@ export default function DetailCoursePage() {
                     <span className='ml-2'>14:35</span>
                   </div>
                 </div>
-                <div className='group leading-[50px] text-[#8c8c8c] flex justify-between cursor-pointer'>
-                  <div className='flex items-center'>
+                <div className='group text-[#8c8c8c] flex justify-between cursor-pointer'>
+                  <div className='flex my-3 md:my-4 items-center'>
                     <i className="las la-play w-6 h-6 bg-green-light rounded-full flex items-center justify-center text-white"></i>
                     <div className='ml-3 transition-all duration-200 group-hover:text-green-light group-hover:scale-95'>Tạo ứng dụng React - React-Scripts</div>
                   </div>
@@ -182,8 +195,8 @@ export default function DetailCoursePage() {
                     <span className='ml-2'>14:35</span>
                   </div>
                 </div>
-                <div className='group leading-[50px] text-[#8c8c8c] flex justify-between cursor-pointer'>
-                  <div className='flex items-center'>
+                <div className='group text-[#8c8c8c] flex justify-between cursor-pointer'>
+                  <div className='flex my-3 md:my-4 items-center'>
                     <i className="las la-play w-6 h-6 bg-green-light rounded-full flex items-center justify-center text-white"></i>
                     <div className='ml-3 transition-all duration-200 group-hover:text-green-light group-hover:scale-95'>Ghi chú nhanh về dấu ngoặc kép cho string interpolation</div>
                   </div>
@@ -199,8 +212,8 @@ export default function DetailCoursePage() {
               </div>
               <div className='my-6'>
                 <h4 className='text-lg'>Bài học</h4>
-                <div className='group leading-[50px] text-[#8c8c8c] flex justify-between cursor-pointer'>
-                  <div className='flex items-center'>
+                <div className='group text-[#8c8c8c] flex justify-between cursor-pointer'>
+                  <div className='flex my-3 md:my-4 items-center'>
                     <i className="las la-play w-6 h-6 bg-green-light rounded-full flex items-center justify-center text-white"></i>
                     <div className='ml-3 transition-all duration-200 group-hover:text-green-light group-hover:scale-95'>Trang chủ và thành phần thư mục</div>
                   </div>
@@ -209,8 +222,8 @@ export default function DetailCoursePage() {
                     <span className='ml-2'>14:35</span>
                   </div>
                 </div>
-                <div className='group leading-[50px] text-[#8c8c8c] flex justify-between cursor-pointer'>
-                  <div className='flex items-center'>
+                <div className='group text-[#8c8c8c] flex justify-between cursor-pointer'>
+                  <div className='flex my-3 md:my-4 items-center'>
                     <i className="las la-play w-6 h-6 bg-green-light rounded-full flex items-center justify-center text-white"></i>
                     <div className='ml-3 transition-all duration-200 group-hover:text-green-light group-hover:scale-95'>Hướng dẫn khóa học + Liên kết Github</div>
                   </div>
@@ -219,8 +232,8 @@ export default function DetailCoursePage() {
                     <span className='ml-2'>14:35</span>
                   </div>
                 </div>
-                <div className='group leading-[50px] text-[#8c8c8c] flex justify-between cursor-pointer'>
-                  <div className='flex items-center'>
+                <div className='group text-[#8c8c8c] flex justify-between cursor-pointer'>
+                  <div className='flex my-3 md:my-4 items-center'>
                     <i className="las la-play w-6 h-6 bg-green-light rounded-full flex items-center justify-center text-white"></i>
                     <div className='ml-3 transition-all duration-200 group-hover:text-green-light group-hover:scale-95'>Trang chủ thương mại điện tử + thiết lập SASS</div>
                   </div>
@@ -229,8 +242,8 @@ export default function DetailCoursePage() {
                     <span className='ml-2'>14:35</span>
                   </div>
                 </div>
-                <div className='group leading-[50px] text-[#8c8c8c] flex justify-between cursor-pointer'>
-                  <div className='flex items-center'>
+                <div className='group text-[#8c8c8c] flex justify-between cursor-pointer'>
+                  <div className='flex my-3 md:my-4 items-center'>
                     <i className="las la-play w-6 h-6 bg-green-light rounded-full flex items-center justify-center text-white"></i>
                     <div className='ml-3 transition-all duration-200 group-hover:text-green-light group-hover:scale-95'>Tệp CSS và SCSS</div>
                   </div>
@@ -239,8 +252,8 @@ export default function DetailCoursePage() {
                     <span className='ml-2'>14:35</span>
                   </div>
                 </div>
-                <div className='group leading-[50px] text-[#8c8c8c] flex justify-between cursor-pointer'>
-                  <div className='flex items-center'>
+                <div className='group text-[#8c8c8c] flex justify-between cursor-pointer'>
+                  <div className='flex my-3 md:my-4 items-center'>
                     <i className="las la-play w-6 h-6 bg-green-light rounded-full flex items-center justify-center text-white"></i>
                     <div className='ml-3 transition-all duration-200 group-hover:text-green-light group-hover:scale-95'>React 17: Cập nhật các gói + Phiên bản React mới nhất</div>
                   </div>
@@ -256,8 +269,8 @@ export default function DetailCoursePage() {
               </div>
               <div className='my-6'>
                 <h4 className='text-lg'>Bài học</h4>
-                <div className='group leading-[50px] text-[#8c8c8c] flex justify-between cursor-pointer'>
-                  <div className='flex items-center'>
+                <div className='group text-[#8c8c8c] flex justify-between cursor-pointer'>
+                  <div className='flex my-3 md:my-4 items-center'>
                     <i className="las la-play w-6 h-6 bg-green-light rounded-full flex items-center justify-center text-white"></i>
                     <div className='ml-3 transition-all duration-200 group-hover:text-green-light group-hover:scale-95'>connect() and mapStateToProps</div>
                   </div>
@@ -266,8 +279,8 @@ export default function DetailCoursePage() {
                     <span className='ml-2'>14:35</span>
                   </div>
                 </div>
-                <div className='group leading-[50px] text-[#8c8c8c] flex justify-between cursor-pointer'>
-                  <div className='flex items-center'>
+                <div className='group text-[#8c8c8c] flex justify-between cursor-pointer'>
+                  <div className='flex my-3 md:my-4 items-center'>
                     <i className="las la-play w-6 h-6 bg-green-light rounded-full flex items-center justify-center text-white"></i>
                     <div className='ml-3 transition-all duration-200 group-hover:text-green-light group-hover:scale-95'>Trạng thái thư mục vào Redux</div>
                   </div>
@@ -276,8 +289,8 @@ export default function DetailCoursePage() {
                     <span className='ml-2'>14:35</span>
                   </div>
                 </div>
-                <div className='group leading-[50px] text-[#8c8c8c] flex justify-between cursor-pointer'>
-                  <div className='flex items-center'>
+                <div className='group text-[#8c8c8c] flex justify-between cursor-pointer'>
+                  <div className='flex my-3 md:my-4 items-center'>
                     <i className="las la-play w-6 h-6 bg-green-light rounded-full flex items-center justify-center text-white"></i>
                     <div className='ml-3 transition-all duration-200 group-hover:text-green-light group-hover:scale-95'>Thành phần Tổng quan về Bộ sưu tập</div>
                   </div>
@@ -290,7 +303,7 @@ export default function DetailCoursePage() {
 
             </div>
           </div>
-          <div className='col-span-1'>
+          <div className='md:col-span-1'>
             <div className='p-4 bg-white shadow-2xl'>
               <img className='w-full h-[240px] object-cover' src={courseDetail?.hinhAnh} alt="" />
               <div className='p-4'>
@@ -342,6 +355,14 @@ export default function DetailCoursePage() {
                 <Input className='border-green-light' placeholder='Nhập mã' />
               </div>
             </div>
+          </div>
+        </div>
+        <div className='mt-10'>
+          <h2 className='mb-10 font-semibold text-xl'>Khóa học tham khảo</h2>
+          <div className='flex gap-6 md:gap-8 lg:gap-10 overflow-x-scroll lg:grid lg:grid-cols-4 lg:px-8'>
+            {courses.slice(20, 24).map(course => {
+              return <CourseItem key={course.maKhoaHoc} course={course} />
+            })}
           </div>
         </div>
       </div>

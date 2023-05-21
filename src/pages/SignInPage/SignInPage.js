@@ -31,7 +31,7 @@ export default function SignInPage() {
             message.success("Đăng nhập thành công")
           }
         } catch (err) {
-          console.log(err.response?.data?.content)
+          message.error(err?.response?.data)
         }
       }}
     >
@@ -49,7 +49,7 @@ export default function SignInPage() {
             {toggle ? <IconEyeOpen onClick={handleToggle} /> : <IconEyeClose onClick={handleToggle} />}
           </Input>
         </div>
-        <Button type="submit" className="block mx-auto py-3 px-5 font-bold">Sign in</Button>
+        <Button type="submit" className="block bg-white mx-auto py-3 px-5 font-bold">Sign in</Button>
       </Form>
     </Formik>
   )
